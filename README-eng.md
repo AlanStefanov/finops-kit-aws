@@ -183,13 +183,12 @@ Typically **20-35% of monthly AWS spend** goes to unused or underutilized resour
 
 ### Terminal closes immediately or won't start
 
-Use the included `run.sh` which auto-detects your default terminal
-(`x-terminal-emulator` on Debian/Ubuntu, or Alacritty, Kitty,
-GNOME Terminal, Konsole, xterm...):
+`run.sh` and `install.sh` run the app in the same terminal
+— they don't open a new window. If the terminal closes right away,
+run manually:
 
 ```bash
-chmod +x run.sh
-./run.sh
+python3 main.py
 ```
 
 ---

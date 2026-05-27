@@ -74,7 +74,7 @@ class SplashScreen(Screen):
             "[bold]Presione cualquier tecla para continuar[/bold]"
         )
 
-        self.set_timer(5.0, self._dismiss)
+        self.set_timer(7.0, self._dismiss)
 
     def _dismiss(self):
         try:

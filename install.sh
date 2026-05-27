@@ -44,22 +44,6 @@ echo "       Done."
 echo "[3/4] Creating launcher script..."
 mkdir -p "$BIN_DIR"
 
-cat > "$BIN_DIR/$APP_NAME" << 'LAUNCHER'
-#!/usr/bin/env bash
-DIR="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
-
-# Try project-level venv first
-if [ -f "$DIR/venv/bin/python" ]; then
-    PYTHON="$DIR/venv/bin/python"
-else
-    PYTHON="python3"
-fi
-
-cd "$DIR"
-exec $PYTHON main.py "$@"
-LAUNCHER
-
-# Fix the path in the launcher: it should point to the project dir
 PROJECT_DIR="$DIR"
 cat > "$BIN_DIR/$APP_NAME" << LAUNCHER
 #!/usr/bin/env bash
@@ -76,47 +60,18 @@ LAUNCHER
 chmod +x "$BIN_DIR/$APP_NAME"
 echo "       Launcher created: $BIN_DIR/$APP_NAME"
 
-# 4. Create desktop opener (opens in a new terminal window)
-echo "[4/4] Creating desktop opener..."
-cat > "$BIN_DIR/${APP_NAME}-window" << WINDOW
-#!/usr/bin/env bash
-PROJECT_DIR="$PROJECT_DIR"
-
-# Detect terminal emulator (alacritty preferred)
-if command -v alacritty &>/dev/null; then
-    exec alacritty -e bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
-elif command -v gnome-terminal &>/dev/null; then
-    exec gnome-terminal -- bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
-elif command -v xterm &>/dev/null; then
-    exec xterm -e bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
-elif command -v konsole &>/dev/null; then
-    exec konsole --hold -e bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME"
-elif command -v xfce4-terminal &>/dev/null; then
-    exec xfce4-terminal --hold -e bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME"
-else
-    echo "No terminal emulator found. Running inline..."
-    cd "$PROJECT_DIR" && $BIN_DIR/$APP_NAME
-fi
-WINDOW
-chmod +x "$BIN_DIR/${APP_NAME}-window"
-
+# 4. Done
+echo "[4/4] Done."
 echo ""
 echo "========================================"
 echo " Installation complete!"
 echo "========================================"
 echo ""
-echo "  Run in terminal:     $APP_NAME"
-echo "  Open in window:      ${APP_NAME}-window"
+echo "  Run:     $APP_NAME"
+echo "  Or:      ./run.sh"
+echo "  Or:      python3 main.py"
 echo ""
 echo "  Make sure $BIN_DIR is in your PATH."
 echo "  You can add it with:  export PATH=\"\$HOME/.local/bin:\$PATH\""
 echo ""
-
-# Auto-open window if not in a pipe
-if [ -t 1 ]; then
-    read -p "Open app now? [Y/n] " -r REPLY
-    REPLY="${REPLY:-y}"
-    if [[ "$REPLY" =~ ^[Yy]$ ]]; then
-        exec "$BIN_DIR/${APP_NAME}-window"
-    fi
-fi
+echo "  Tip: the app runs in your current terminal — no new window opens."

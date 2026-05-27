@@ -615,13 +615,12 @@ Dentro de la pestaña Backup (`b`):
 
 ### La terminal no arranca o se cierra inmediatamente
 
-El `run.sh` incluido detecta automáticamente su terminal por defecto
-(`x-terminal-emulator` en Debian/Ubuntu, o Alacritty, Kitty,
-GNOME Terminal, Konsole, xterm...).
+`run.sh` e `install.sh` ejecutan la app en la misma terminal
+— no abren una ventana nueva. Si la terminal se cierra al instante,
+ejecute manualmente:
 
 ```bash
-chmod +x run.sh
-./run.sh
+python3 main.py
 ```
 
 ### Error "No module named textual"
