@@ -17,16 +17,22 @@ class ConfirmScreen(ModalScreen):
     }
 
     #confirm-box {
-        width: 50;
-        height: 10;
+        width: 54;
+        height: 12;
         border: solid $warning;
         padding: 1 2;
         background: $surface;
     }
 
     #confirm-box > Static {
-        height: 3;
+        height: 2;
         content-align: center middle;
+    }
+
+    #confirm-hint {
+        height: 2;
+        content-align: center middle;
+        color: $text-muted;
     }
 
     #confirm-buttons {
@@ -48,8 +54,8 @@ class ConfirmScreen(ModalScreen):
     def compose(self):
         yield Container(
             Static(f"[bold]Apply: {self.label}[/bold]"),
-            Static(f"Will affect [red]{self.count}[/red] resources"),
-            Static(f"[green]Estimated savings: {self.savings}[/green]"),
+            Static(f"Will affect [red]{self.count}[/red] resources — [green]{self.savings}[/green]"),
+            Static("Press [bold]Enter[/bold] to confirm or [bold]Esc[/bold] to cancel", id="confirm-hint"),
             Horizontal(
                 Button("✅ Apply", variant="error", id="confirm-yes"),
                 Button("❌ Cancel", variant="primary", id="confirm-no"),
@@ -62,6 +68,12 @@ class ConfirmScreen(ModalScreen):
         if event.button.id == "confirm-yes":
             self.dismiss(True)
         else:
+            self.dismiss(False)
+
+    def on_key(self, event):
+        if event.key == "enter":
+            self.dismiss(True)
+        elif event.key == "escape":
             self.dismiss(False)
 
 
@@ -151,13 +163,13 @@ class PoliciesPanel(Container):
                 Vertical(
                     Static("Select a policy", id="pol-title"),
                     Static(id="pol-savings"),
-                    DataTable(id="pol-table"),
-                    RichLog(id="pol-log", highlight=True, markup=True, max_lines=200),
                     Horizontal(
                         Button("🔍 Dry-run", id="dry-run-btn", variant="primary"),
                         Button("🚀 Apply", id="apply-btn", variant="error"),
                         id="pol-actions",
                     ),
+                    DataTable(id="pol-table"),
+                    RichLog(id="pol-log", highlight=True, markup=True, max_lines=200),
                     id="pol-detail",
                 ),
                 id="pol-main",
