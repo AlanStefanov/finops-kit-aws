@@ -47,7 +47,7 @@ Todo desde la terminal, sin necesidad de entrar a la consola web de AWS.
 - Python 3.10 o superior
 - pip3
 - Una cuenta de AWS con permisos de lectura/escritura en los servicios a analizar
-- Opcional: `gnome-terminal` o `alacritty` para lanzar la interfaz
+- Opcional: `alacritty`, `kitty`, `gnome-terminal` para lanzar la interfaz
 
 ---
 
@@ -63,7 +63,8 @@ chmod +x install.sh
 
 # 3. Configurar credenciales (ver sección siguiente)
 # 4. Lanzar la aplicación
-finops-kit
+./run.sh
+#   o directamente: finops-kit
 ```
 
 O manualmente:
@@ -612,12 +613,15 @@ Dentro de la pestaña Backup (`b`):
 
 ## 🔧 Solución de problemas
 
-### La terminal se cierra inmediatamente
+### La terminal no arranca o se cierra inmediatamente
 
-Si usa gnome-terminal, lance con:
+El `run.sh` incluido detecta automáticamente su terminal por defecto
+(`x-terminal-emulator` en Debian/Ubuntu, o Alacritty, Kitty,
+GNOME Terminal, Konsole, xterm...).
 
 ```bash
-gnome-terminal --working-directory=/ruta/al/proyecto -- python3 main.py &
+chmod +x run.sh
+./run.sh
 ```
 
 ### Error "No module named textual"
@@ -644,7 +648,7 @@ Esta aplicación requiere una terminal que soporte:
 - Unicode (emojis)
 - Tamaño mínimo de 80×24 caracteres
 
-Terminales recomendadas: gnome-terminal, alacritty, kitty, Windows Terminal, iTerm2.
+Terminales recomendadas: alacritty, kitty, gnome-terminal, Windows Terminal, iTerm2.
 
 ---
 

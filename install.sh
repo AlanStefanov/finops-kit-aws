@@ -82,11 +82,11 @@ cat > "$BIN_DIR/${APP_NAME}-window" << WINDOW
 #!/usr/bin/env bash
 PROJECT_DIR="$PROJECT_DIR"
 
-# Detect terminal emulator
-if command -v gnome-terminal &>/dev/null; then
-    exec gnome-terminal -- bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
-elif command -v alacritty &>/dev/null; then
+# Detect terminal emulator (alacritty preferred)
+if command -v alacritty &>/dev/null; then
     exec alacritty -e bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
+elif command -v gnome-terminal &>/dev/null; then
+    exec gnome-terminal -- bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
 elif command -v xterm &>/dev/null; then
     exec xterm -e bash -c "cd '$PROJECT_DIR' && $BIN_DIR/$APP_NAME; exec bash"
 elif command -v konsole &>/dev/null; then

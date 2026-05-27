@@ -25,7 +25,7 @@ Everything runs from your terminal — no need to open the AWS Management Consol
 - Python 3.10+
 - pip3
 - AWS account with read/write permissions on the scanned services
-- Optional: `gnome-terminal`, `alacritty`, or `kitty` for windowed launch
+- Optional: `alacritty`, `kitty`, or `gnome-terminal` for windowed launch
 
 ---
 
@@ -42,7 +42,8 @@ chmod +x install.sh
 
 # 3. Configure AWS credentials (see below)
 # 4. Launch the app
-finops-kit
+./run.sh
+#   or directly: finops-kit
 ```
 
 Or manually:
@@ -175,6 +176,21 @@ Persistent JSON log (`optimization_history.json`) of every optimization action w
 | 1 unused medium RDS instance | ~$50-200/mo → ~$600-2400/yr |
 
 Typically **20-35% of monthly AWS spend** goes to unused or underutilized resources. FinOpsKit helps identify and eliminate this waste systematically.
+
+---
+
+## Troubleshooting
+
+### Terminal closes immediately or won't start
+
+Use the included `run.sh` which auto-detects your default terminal
+(`x-terminal-emulator` on Debian/Ubuntu, or Alacritty, Kitty,
+GNOME Terminal, Konsole, xterm...):
+
+```bash
+chmod +x run.sh
+./run.sh
+```
 
 ---
 
